@@ -58,3 +58,5 @@ redis.on('message', (stockSymbol, message) => {
     socket.send(message)
   })
 })
+
+// test change
