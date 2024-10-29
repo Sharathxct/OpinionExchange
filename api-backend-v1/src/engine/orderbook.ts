@@ -1,5 +1,8 @@
 import { Inr } from "./inr";
 import { Stock } from "./stock";
+import Redis from "ioredis";
+
+const redis = new Redis();
 
 type yesOrNo = 'yes' | 'no'
 
@@ -74,6 +77,7 @@ export class Orderbook {
       this.state[stockSymbol][stockType][price].orders[key] = { userId, type, quantity }
       this.matcher(stockSymbol, stockType, price);
     }
+    redis.publish(stockSymbol, JSON.stringify(this.state[stockSymbol]))
   }
 
   public processBuy(userId: string, stockSymbol: string, stockType: yesOrNo, type: 'buy' | 'sell', quantity: number) {
